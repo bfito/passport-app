@@ -9,7 +9,7 @@ const bcrypt     = require("bcrypt");
 const bcryptSalt = 10;
 
 authRoutes.get("/signup", (req, res, next) => {
-  res.render("auth/signup");
+  res.render("auth/signup-views");
 });
 
 authRoutes.post("/signup", (req, res, next) => {
@@ -17,13 +17,13 @@ authRoutes.post("/signup", (req, res, next) => {
   const password = req.body.password;
 
   if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+    res.render("auth/signup-views", { message: "Indicate username and password" });
     return;
   }
 
   User.findOne({ username }, "username", (err, user) => {
     if (user !== null) {
-      res.render("auth/signup", { message: "The username already exists" });
+      res.render("auth/signup-views", { message: "The username already exists" });
       return;
     }
 
@@ -39,7 +39,7 @@ authRoutes.post("/signup", (req, res, next) => {
 
     newUser.save((err) => {
       if (err) {
-        res.render("auth/signup", { message: "Something went wrong" });
+        res.render("auth/signup-views", { message: "Something went wrong" });
       } else {
         res.redirect("/");
       }
