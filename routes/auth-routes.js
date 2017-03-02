@@ -53,7 +53,9 @@ authRoutes.post("/signup", (req, res, next) => {
 const passport = require('passport');
 
 authRoutes.get('/login', (req, res, next) => {
-  res.render('auth/login-view.ejs');
+  res.render('auth/login-view.ejs', {
+    errorMessage: req.flash('error')
+  });
 });
 
 
@@ -62,6 +64,7 @@ authRoutes.post('/login',
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true,
+    successFlash: true,
     passReqToCallback: true
   })
 );

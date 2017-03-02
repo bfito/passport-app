@@ -10,4 +10,11 @@ a {
 .success {
   background-color: lightgreen;
   color: white;
+  padding: 20px;
+}
+
+.error {
+  background-color: red;
+  color: white;
+  padding: 20px;
 }
