@@ -37,9 +37,12 @@ authRoutes.post("/signup", (req, res, next) => {
     });
 
     newUser.save((err) => {
+      console.log('newUser Line');
       if (err) {
         res.render("auth/signup-view.ejs", { message: "Something went wrong" });
       } else {
+
+        req.flash('success', 'You have been registered. Try logging in.');
         res.redirect("/");
       }
     });

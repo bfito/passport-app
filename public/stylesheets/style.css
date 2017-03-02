@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+.success {
+  background-color: lightgreen;
+  color: white;
+}
