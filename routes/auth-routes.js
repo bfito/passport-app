@@ -37,11 +37,9 @@ authRoutes.post("/signup", (req, res, next) => {
     });
 
     newUser.save((err) => {
-      console.log('newUser Line');
       if (err) {
         res.render("auth/signup-view.ejs", { message: "Something went wrong" });
       } else {
-
         req.flash('success', 'You have been registered. Try logging in.');
         res.redirect("/");
       }
@@ -64,16 +62,32 @@ authRoutes.post('/login',
     successReturnToOrRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true,
-    successFlash: true,
+    successFlash: 'You have been logged in, user!',
     passReqToCallback: true
   })
 );
 
-authRoutes.get ('/logout', (req, res, next) => {
+authRoutes.get("/logout", (req, res) => {
   req.logout();
   req.flash('success', 'You have logged out.');
   res.redirect("/");
 });
+
+
+authRoutes.get("/auth/facebook", passport.authenticate("facebook"));
+authRoutes.get("/auth/facebook/callback", passport.authenticate("facebook", {
+  successRedirect: "/",
+  failureRedirect: "/login"
+}));
+
+authRoutes.get("/auth/google", passport.authenticate("google", {
+  scope: ["https://www.googleapis.com/auth/plus.login",
+          "https://www.googleapis.com/auth/plus.profile.emails.read"]
+}));
+authRoutes.get("/auth/google/callback", passport.authenticate("google", {
+  successRedirect: "/",
+  failureRedirect: "/",
+}));
 
 
 module.exports = authRoutes;
