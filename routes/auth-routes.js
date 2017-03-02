@@ -61,7 +61,7 @@ authRoutes.get('/login', (req, res, next) => {
 
 authRoutes.post('/login',
   passport.authenticate('local', {
-    successRedirect: '/',
+    successReturnToOrRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true,
     successFlash: true,
@@ -69,7 +69,11 @@ authRoutes.post('/login',
   })
 );
 
-
+authRoutes.get ('/logout', (req, res, next) => {
+  req.logout();
+  req.flash('success', 'You have logged out.');
+  res.redirect("/");
+});
 
 
 module.exports = authRoutes;
