@@ -1,14 +1,26 @@
 const express = require('express');
+const ensure = require('connect-ensure-login');
+
+const Room = require('../models/room-model');
+
 const roomsRoutes = express.Router();
 
-roomsRoutes.get('rooms/new', (req, res, next) => {
+roomsRoutes.get('/rooms/index', ensure.ensureLoggedIn(), (req, res, next) => {
+  Room.find({owner: req.user._id}, (err, myRooms) => {
+    if (err) { return next(err); }
+
+    res.render('rooms/room-index', { rooms: myRooms });
+  });
+});
+
+roomsRoutes.get('/rooms/new', ensure.ensureLoggedIn(), (req, res, next) => {
   res.render('rooms/new.ejs', {
     message: req.flash('success')
   });
 });
 
 // router.post('/rooms', ensureAuthenticated, (req, res, next) => {
-router.post('/rooms', (req, res, next) => {
+roomsRoutes.post('/rooms', (req, res, next) => {
   const newRoom = new Room ({
     name:  req.body.name,
     desc:  req.body.desc,
@@ -29,4 +41,4 @@ router.post('/rooms', (req, res, next) => {
 
 
 
-module.exports = express.Router();
+module.exports = roomsRoutes;
